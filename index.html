@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini-Campagne Instagram — Dijon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  .reel-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 13px 20px 13px 0;
+  text-decoration: none;
+  color: var(--dark);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  position: relative;
+  border-bottom: 2px solid var(--gold);
+  transition: color 0.3s;
+}
+
+.reel-link-btn-bar {
+  position: absolute;
+  bottom: -2px; left: 0;
+  height: 2px; width: 0%;
+  background: var(--dark);
+  transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.reel-link-btn:hover .reel-link-btn-bar { width: 100%; }
+
+.reel-link-btn-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.reel-link-btn-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; height: 32px;
+  background: var(--gold);
+  color: white;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: background 0.3s, transform 0.3s;
+}
+.reel-link-btn:hover .reel-link-btn-arrow {
+  background: var(--dark);
+  transform: scale(1.1);
+}
+
+/* Variante bleue pour le 2e réel */
+.reel-link-btn--blue { border-bottom-color: var(--blue); }
+.reel-link-btn--blue .reel-link-btn-arrow { background: var(--blue); }
+.reel-link-btn--blue:hover .reel-link-btn-arrow { background: var(--dark); }
+  :root {
+    --gold: #C8933A;
+    --blue: #7EA8C4;
+    --brown: #8B4A3A;
+    --cream: #F5F0E8;
+    --dark: #1A1A18;
+    --mid: #3A3A35;
+    --light-gray: #E8E3D8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 48px;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,147,58,0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.12em;
+    color: var(--dark);
+  }
+  .nav-logo span { color: var(--gold); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 36px;
+  }
+  nav ul a {
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--gold); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+    position: relative;
+  }
+
+  .hero-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--dark);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title .accent-gold { color: var(--gold); }
+  .hero-title .accent-blue { color: var(--blue); }
+  .hero-title .accent-brown { color: var(--brown); }
+
+  .hero-sub {
+    margin-top: 32px;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--mid);
+    max-width: 420px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-authors {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .author-chip {
+    padding: 8px 18px;
+    border: 1.5px solid var(--dark);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .author-chip.gold { background: var(--gold); border-color: var(--gold); color: white; }
+
+  .hero-geo {
+    position: absolute;
+    bottom: 40px;
+    left: 80px;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--mid);
+    opacity: 0.5;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  .hero-right {
+    position: relative;
+    background: var(--dark);
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: 100%;
+    gap: 3px;
+  }
+
+  .hero-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .hero-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    filter: brightness(0.85);
+  }
+  .hero-card:hover img { transform: scale(1.06); filter: brightness(1); }
+
+  .hero-card-label {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    padding: 4px 10px;
+  }
+
+  .shape-rect {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    background: var(--gold);
+    opacity: 0.15;
+    z-index: 1;
+  }
+
+  /* ─── SECTION SHARED ─── */
+  section { padding: 100px 80px; }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 48px;
+  }
+
+  /* ─── DÉMARCHE ─── */
+  .demarche { background: var(--dark); color: var(--cream); }
+  .demarche .section-label { color: var(--gold); }
+  .demarche .section-title { color: white; }
+
+  .demarche-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+  }
+
+  .demarche-card {
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .demarche-card:hover { transform: translateY(-4px); }
+
+  .demarche-card:nth-child(1) { background: var(--gold); color: var(--dark); }
+  .demarche-card:nth-child(2) { background: var(--blue); color: var(--dark); }
+  .demarche-card:nth-child(3) { background: var(--brown); color: white; }
+
+  .demarche-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 4rem;
+    line-height: 1;
+    opacity: 0.25;
+    margin-bottom: 16px;
+  }
+
+  .demarche-card h3 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .demarche-card p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+
+  .demarche-shape {
+    position: absolute;
+    bottom: -30px;
+    right: -30px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* ─── DIRECTION ARTISTIQUE ─── */
+  .da { background: var(--light-gray); }
+
+  .da-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .da-colors {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .color-swatch {
+    flex: 1;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 12px;
+    position: relative;
+  }
+  .color-swatch span {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .swatch-gold { background: var(--gold); }
+  .swatch-gold span { color: white; }
+  .swatch-blue { background: var(--blue); }
+  .swatch-blue span { color: var(--dark); }
+  .swatch-brown { background: var(--brown); }
+  .swatch-brown span { color: white; }
+  .swatch-dark { background: var(--dark); }
+  .swatch-dark span { color: var(--cream); }
+
+  .da-typo h4 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .typo-display {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .typo-body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    color: var(--mid);
+    margin-bottom: 24px;
+  }
+
+  .da-shapes {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-top: 32px;
+  }
+
+  .shape-demo-rect {
+    width: 80px;
+    height: 80px;
+    background: var(--gold);
+    opacity: 0.7;
+  }
+  .shape-demo-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--blue);
+    opacity: 0.7;
+  }
+  .shape-demo-rect2 {
+    width: 40px;
+    height: 80px;
+    background: var(--brown);
+    opacity: 0.7;
+  }
+
+  .da-right {
+    position: relative;
+  }
+
+  .da-poster-preview {
+    width: 100%;
+    aspect-ratio: 0.7;
+    background: var(--cream);
+    border: 1px solid rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 24px 24px 0 var(--gold);
+  }
+  .da-poster-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ─── CARROUSEL ─── */
+  .carrousel { background: var(--cream); }
+
+  .carrousel-intro {
+    max-width: 600px;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--mid);
+    margin-bottom: 64px;
+  }
+
+  .carousel-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 48px;
+    border-bottom: 2px solid var(--light-gray);
+  }
+
+  .tab-btn {
+    padding: 12px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--mid);
+    position: relative;
+    transition: color 0.2s;
+  }
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .tab-btn.active { color: var(--dark); }
+  .tab-btn.active::after { transform: scaleX(1); }
+
+  .carousel-panel { display: none; }
+  .carousel-panel.active { display: block; }
+
+  .carousel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+  }
+
+  .carousel-item {
+    aspect-ratio: 0.75;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--dark);
+  }
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: opacity 0.4s, transform 0.5s;
+  }
+  .carousel-item:hover img { opacity: 1; transform: scale(1.04); }
+
+  .carousel-item-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 20px 16px 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+    color: white;
+    transform: translateY(4px);
+    transition: transform 0.3s;
+  }
+  .carousel-item:hover .carousel-item-info { transform: translateY(0); }
+
+  .carousel-item-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .carousel-item-desc {
+    font-size: 0.72rem;
+    margin-top: 4px;
+    opacity: 0.8;
+    line-height: 1.4;
+  }
+
+  /* ─── AFFICHES ─── */
+  .affiches { background: var(--dark); color: white; }
+  .affiches .section-label { color: var(--gold); }
+  .affiches .section-title { color: white; }
+
+  .affiches-intro {
+    max-width: 600px;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 64px;
+  }
+
+  .affiches-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .affiche-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .affiche-inner {
+    aspect-ratio: 0.65;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s;
+  }
+  .affiche-card:hover .affiche-inner { transform: scale(1.02); }
+
+  .affiche-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .affiche-meta {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .affiche-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .affiche-name.gold { color: var(--gold); }
+  .affiche-name.blue { color: var(--blue); }
+  .affiche-name.brown { color: #C07060; }
+
+  .affiche-coords {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.08em;
+  }
+
+  .affiche-sub {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ─── RÉELS ─── */
+  .reels { background: var(--light-gray); }
+
+  .reels-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+
+  .reel-card {
+    position: relative;
+  }
+
+  .reel-screen {
+    aspect-ratio: 9/16;
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .reel-screen-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reel-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--dark);
+  }
+
+  .reel-bg-dynamic {
+    background: linear-gradient(135deg, #1A1A18 0%, #2A2520 50%, #1A1A18 100%);
+  }
+  .reel-bg-slow {
+    background: linear-gradient(160deg, #1A1520 0%, #252030 50%, #181A1A 100%);
+  }
+
+  .reel-geo {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.15;
+  }
+
+  .reel-content {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    padding: 32px 24px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    color: white;
+  }
+
+  .reel-type {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .reel-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.1;
+  }
+
+  .reel-desc {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  .reel-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    background: rgba(200,147,58,0.85);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .reel-play:hover { background: var(--gold); transform: translate(-50%,-50%) scale(1.08); }
+  .reel-play svg { margin-left: 4px; }
+
+  .reel-info {
+    padding: 24px 0 0;
+  }
+
+  .reel-info h3 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .reel-info p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--mid);
+  }
+
+  .reel-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .reel-tag {
+    padding: 5px 12px;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--mid);
+    color: var(--mid);
+  }
+  .reel-tag.active { background: var(--gold); border-color: var(--gold); color: white; }
+
+  /* ─── ACCÈS CONTENU ─── */
+  .acces {
+    background: var(--gold);
+    color: var(--dark);
+    text-align: center;
+    padding: 80px;
+  }
+
+  .acces .section-label { color: rgba(26,26,24,0.6); }
+  .acces .section-title { color: var(--dark); margin-bottom: 16px; }
+
+  .acces-sub {
+    font-size: 1rem;
+    max-width: 500px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+    opacity: 0.8;
+  }
+
+  .acces-handle {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.04em;
+    background: var(--dark);
+    color: var(--cream);
+    display: inline-block;
+    padding: 16px 40px;
+    margin-top: 8px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark);
+    color: var(--cream);
+    padding: 48px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(200,147,58,0.2);
+  }
+
+  .footer-logo {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.08em;
+  }
+  .footer-logo span { color: var(--gold); }
+
+  .footer-right {
+    text-align: right;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.8;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── DIAGONAL SEPARATOR ─── */
+  .sep {
+    height: 80px;
+    background: var(--cream);
+    clip-path: polygon(0 0, 100% 100%, 100% 100%, 0 100%);
+  }
+
+  /* ─── GEOMETRIC DECORATORS ─── */
+  .geo-decorator {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  /* ─── MOCKUPS ─── */
+  .mockups { background: var(--light-gray); }
+
+  .mockups-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .mockup-card 
+
+  .mockup-img-wrap {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--dark);
+  }
+
+  .mockup-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s;
+  }
+  .mockup-card:hover .mockup-img-wrap img { transform: scale(1.04); }
+
+  .mockup-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245,240,232,0.15);
+  }
+
+  .mockup-overlay-dark { background: rgba(10,10,8,0.35); }
+
+  .mockup-overlay-inner {
+    width: 65%;
+    height: 72%;
+    display: flex;
+    gap: 4px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .mockup-info {
+    padding: 24px 0 0;
+  }
+
+  .mockup-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .mockup-info h3 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+    color: var(--dark);
+  }
+
+  .mockup-info p {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--mid);
+  }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">DIJON <span>21</span></div>
+  <ul>
+    <li><a href="#demarche">Démarche</a></li>
+    <li><a href="#da">Direction Artistique</a></li>
+    <li><a href="#carrousel">Carrousel</a></li>
+    <li><a href="#affiches">Affiches</a></li>
+    <li><a href="#mockups">Mockups</a></li>
+    <li><a href="#reels">Réels</a></li>
+    <li><a href="#acces">Accès</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Mini-Campagne Instagram · 2025</div>
+    <h1 class="hero-title">
+      <span class="accent-gold">DIJON</span><br>
+      <span class="accent-blue">VUE</span><br>
+      <span class="accent-brown">PAR</span><br>
+      NOUS
+    </h1>
+    <p class="hero-sub">
+      Une mini-campagne Instagram pour valoriser Dijon : deux réels, un carrousel de douze lieux et trois affiches illustrées. Un projet de création de A à Z — recherche documentaire, direction artistique, prise de vue et production des supports — avec une charte visuelle pensée à partir de l'identité même de la ville.
+    </p>
+    <div class="hero-authors">
+      <div class="author-chip gold">Hevan</div>
+      <div class="author-chip">Alicia</div>
+    </div>
+    <div class="hero-geo">47°19 N — 5°02 E · Dijon, Côte-d'Or</div>
+  </div>
+  <div class="hero-right">
+    <div class="shape-rect"></div>
+    <div class="hero-grid">
+      <div class="hero-card">
+        <img src="IMG_1687.jpg" width="400px">
+        <div class="hero-card-label">Porte Guillaume</div>
+      </div>
+      <div class="hero-card">
+        <img src="IMG_1659.jpg" alt="Tour Philippe le Bon" onerror="this.style.background='#7EA8C4'">
+        <div class="hero-card-label">Tour Philippe le Bon</div>
+      </div>
+      <div class="hero-card">
+        <img src="IMG_8327.jpg" alt="Cathédrale" onerror="this.style.background='#8B4A3A'">
+        <div class="hero-card-label">Cathédrale St-Bénigne</div>
+      </div>
+      <div class="hero-card">
+        <img src="IMG_8245.jpg" alt="Musée" onerror="this.style.background='#1A1A18'">
+        <div class="hero-card-label">Musée des Beaux-Arts</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DÉMARCHE -->
+<section class="demarche reveal" id="demarche">
+  <div class="section-label">Notre démarche</div>
+  <div class="section-title">Concept &amp; Intention Créative</div>
+  <p style="max-width:720px;font-size:1rem;line-height:1.7;color:rgba(255,255,255,0.6);margin-bottom:0;">
+    Notre point de départ : comment raconter une ville comme Dijon sur Instagram en évitant l'écueil du simple album photos ? Nous avons choisi de croiser quatre formats distincts, chacun répondant à une intention précise — capter, contempler, informer, afficher — pour composer une campagne cohérente et complémentaire, ancrée dans une direction artistique forte inspirée par l'identité même de la ville.
+  </p>
+  <div class="demarche-grid" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="demarche-card">
+      <div class="demarche-num">01</div>
+      <h3>Réel Dynamique</h3>
+      <p>L'accroche. Un format rapide et rythmé pour stopper le scroll dès les premières secondes. Les plans courts s'enchaînent sur les lieux emblématiques avec des transitions nerveuses et une bande-son énergique, pour donner envie d'aller plus loin.</p>
+      <div class="demarche-shape"></div>
+    </div>
+    <div class="demarche-card">
+      <div class="demarche-num">02</div>
+      <h3>Réel Lent</h3>
+      <p>La profondeur. Plans fixes, lumière naturelle, silence ou ambiance sonore douce. On laisse le regard se poser sur la pierre, les détails architecturaux, la texture du quotidien dijonnais. Un contrepoint contemplatif qui crée de l'attachement.</p>
+      <div class="demarche-shape"></div>
+    </div>
+    <div class="demarche-card">
+      <div class="demarche-num">03</div>
+      <h3>Carrousel Instagram</h3>
+      <p>L'information. Douze lieux traités un à un, avec leur histoire et leur singularité. Ce format swipeable invite à la découverte à son propre rythme, en associant une photo forte à un texte concis — utile, lisible, partageables.</p>
+      <div class="demarche-shape"></div>
+    </div>
+    <div class="demarche-card" style="background: var(--mid);">
+      <div class="demarche-num">04</div>
+      <h3>Affiches Illustrées</h3>
+      <p>L'identité visuelle portée à l'extrême. Trois posters de style magazine, chacun dédié à un monument, avec une couleur dominante, une typographie massive et des coordonnées GPS. Pensés pour être aussi percutants hors écran qu'en ligne.</p>
+      <div class="demarche-shape"></div>
+    </div>
+  </div>
+</section>
+
+<!-- DIRECTION ARTISTIQUE -->
+<section class="da reveal" id="da">
+  <div class="section-label">Direction Artistique</div>
+  <div class="section-title">Charte Visuelle</div>
+  <div class="da-inner">
+    <div class="da-left">
+      <h4 style="font-family:'Archivo Black',sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Palette de couleurs</h4>
+      <div class="da-colors">
+        <div class="color-swatch swatch-gold"><span>Or</span></div>
+        <div class="color-swatch swatch-blue"><span>Bleu</span></div>
+        <div class="color-swatch swatch-brown"><span>Brun</span></div>
+        <div class="color-swatch swatch-dark"><span>Noir</span></div>
+      </div>
+      <p style="font-size:0.82rem;color:var(--mid);line-height:1.6;margin-bottom:32px;">Ces couleurs ne sont pas choisies au hasard : elles sont extraites directement de Dijon. L'or des tuiles vernissées en losange qui couvrent les toits bourguignons, le bleu-gris du ciel de Côte-d'Or en automne, le brun chaud de la pierre calcaire des façades, le noir profond de la nuit dans les ruelles du centre historique. Chaque teinte est un fragment de la ville.</p>
+
+      <div class="da-typo">
+        <h4>Typographies</h4>
+        <div class="typo-display">Archivo Black</div>
+        <p style="font-size:0.75rem;color:var(--mid);margin-bottom:20px;">Pour les titres, affiches et réels — impactant, moderne</p>
+        <div class="typo-body">DM Sans — Simple, moderne, lisible</div>
+        <p style="font-size:0.75rem;color:var(--mid);">Pour les corps de texte et légendes</p>
+      </div>
+
+      <div class="da-shapes">
+        <div>
+          <div class="shape-demo-rect"></div>
+          <p style="font-size:0.7rem;margin-top:8px;color:var(--mid);">Rectangle</p>
+        </div>
+        <div>
+          <div class="shape-demo-circle"></div>
+          <p style="font-size:0.7rem;margin-top:8px;color:var(--mid);">Cercle</p>
+        </div>
+        <div>
+          <div class="shape-demo-rect2"></div>
+          <p style="font-size:0.7rem;margin-top:8px;color:var(--mid);">Bande</p>
+        </div>
+        <div style="flex:1;padding-left:16px;">
+          <p style="font-size:0.82rem;color:var(--mid);line-height:1.6;">Formes géométriques utilisées pour structurer les compositions et dynamiser les visuels.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="da-right">
+      <div class="da-poster-preview">
+        <img src="Affiche 1-A3.jpg" alt="Poster preview" onerror="this.style.background='var(--light-gray)'">
+        <div style="position:absolute;top:0;left:0;right:0;padding:20px 20px 0;z-index:2;">
+        </div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(245,240,232,0.95),transparent);z-index:2;">
+          <div style="font-family:'Archivo Black',sans-serif;font-size:1rem;color:var(--dark);">TOWER</div>
+          <div style="font-size:0.7rem;color:var(--mid);line-height:1.4;margin-top:4px;">La tour Philippe le Bon du palais des ducs de Dijon.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARROUSEL -->
+<section class="carrousel reveal" id="carrousel">
+  <div class="section-label">Carrousel Instagram</div>
+  <div class="section-title">12 Lieux à Découvrir</div>
+  <p class="carrousel-intro">
+    Le carrousel est le format le plus informatif de la campagne. L'objectif était double : proposer un contenu utile et documenté sur les lieux incontournables de Dijon, tout en maintenant une cohérence visuelle forte avec le reste de la campagne. Chaque vignette associe une photo de terrain et un texte factuel court — assez pour susciter la curiosité, pas trop pour ne pas alourdir. Douze lieux, trois planches de quatre.
+  </p>
+
+  <div class="carousel-tabs">
+    <button class="tab-btn active" onclick="showTab(0)">Planche 1</button>
+    <button class="tab-btn" onclick="showTab(1)">Planche 2</button>
+    <button class="tab-btn" onclick="showTab(2)">Planche 3</button>
+  </div>
+
+  <div class="carousel-panel active" id="panel-0">
+    <div class="carousel-grid">
+      <div class="carousel-item">
+        <img src="Carrousel-frame1.jpg" alt="Porte Guillaume" onerror="this.style.background='#C8933A'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Porte Guillaume</div>
+          <div class="carousel-item-desc">Monument construit de 1786 à 1788 en hommage au prince de Condé</div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="Carrousel-frame2.jpg" alt="Tour Philippe le Bon" onerror="this.style.background='#7EA8C4'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Tour Philippe le Bon</div>
+          <div class="carousel-item-desc">46 mètres, 6 étages, construite entre 1450 et 1460</div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="Carrousel-frame3.jpg" alt="Moutarde de Dijon" onerror="this.style.background='#8B4A3A'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Moutarde de Dijon</div>
+          <div class="carousel-item-desc">Fabriquée depuis le XIIIe siècle par les moutardiers de Dijon</div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="Carrousel-frame4.jpg" alt="Architecture" onerror="this.style.background='#3A3A35'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Architecture Typique</div>
+          <div class="carousel-item-desc">Un patrimoine façonné par de nombreux talents artistiques</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="carousel-panel" id="panel-1">
+    <div class="carousel-grid">
+      <div class="carousel-item">
+        <img src="Carrousel-frame5.jpg" alt="Port du Canal" onerror="this.style.background='#7EA8C4'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Port du Canal</div>
+          <div class="carousel-item-desc">Canal de Bourgogne ordonné par Louis XV en 1773</div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="Carrousel-frame6.jpg" alt="Cathédrale Saint-Bénigne" onerror="this.style.background='#1A1A18'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Cathédrale St-Bénigne</div>
+          <div class="carousel-item-desc">Crypte construite en 511 par l'évêque saint Grégoire de Langres</div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="Carrousel-frame7.jpg" alt="Chouette de Dijon" onerror="this.style.background='#C8933A'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Chouette de Dijon</div>
+          <div class="carousel-item-desc">Porte-bonheur depuis 1677, révélée par un livre-enquête</div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="Carrousel-frame8.jpg" alt="Musée des Beaux-Arts" onerror="this.style.background='#8B4A3A'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Musée des Beaux-Arts</div>
+          <div class="carousel-item-desc">Palais des États de Bourgogne, projet de Jules Hardouin-Mansart</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="carousel-panel" id="panel-2">
+    <div class="carousel-grid">
+      <div class="carousel-item">
+        <img src="Carrousel-frame9.jpg" alt="Place de la République" onerror="this.style.background='#7EA8C4'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Place de la République</div>
+          <div class="carousel-item-desc">Monument érigé en 1894 suite à l'assassinat de Sadi Carnot</div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="Carrousel-frame10.jpg" alt="Ensemble Culturel" onerror="this.style.background='#C8933A'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Ensemble Culturel</div>
+          <div class="carousel-item-desc">Un panorama de l'histoire dans un centre historique accessible</div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="Carrousel-frame11.jpg" alt="Maison aux Trois Visages" onerror="this.style.background='#8B4A3A'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Maison aux Trois Visages</div>
+          <div class="carousel-item-desc">Construite par Jehan de Maulpas dans les années 1470</div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="Carrousel-frame12.jpg" alt="Sécurité Urbaine" onerror="this.style.background='#3A3A35'">
+        <div class="carousel-item-info">
+          <div class="carousel-item-title">Sécurité Urbaine</div>
+          <div class="carousel-item-desc">Espaces verts et trafic modéré, zones calmes pour les promenades</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AFFICHES -->
+<section class="affiches reveal" id="affiches">
+  <div class="section-label">Affiches / Posters</div>
+  <div class="section-title">Direction Artistique Poster</div>
+  <p class="affiches-intro">
+    L'affiche comme objet graphique à part entière. Notre intention était de créer des visuels qui fonctionnent aussi bien sur un feed Instagram que collés sur un mur. Chaque poster repose sur un principe simple : une photo forte d'un monument dijonnais, un mot — DIJON — en typographie massive qui dialogue avec l'image, une couleur dominante qui crée l'identité du format, et des coordonnées GPS qui ancrent le visuel dans le réel. Le tout traité avec des formes géométriques épurées pour éviter toute surcharge décorative. Trois couleurs, trois monuments, trois ambiances — un système cohérent.
+  </p>
+  <div class="affiches-grid">
+    <div class="affiche-card">
+      <div class="affiche-inner">
+        <img src="Affiche 2-A3.jpg" alt="Cathedral" onerror="this.style.background='#C8933A40'">
+        <div style="position:absolute;top:0;left:0;right:0;padding:20px;z-index:2;background:linear-gradient(to bottom,rgba(245,240,232,0.9),transparent);">
+        </div>
+      </div>
+      <div class="affiche-meta">
+        <div>
+          <div class="affiche-name gold">CATHEDRAL</div>
+          <div class="affiche-sub">Saint-Bénigne · XIIe siècle</div>
+        </div>
+        <div class="affiche-coords">47°32 14 N<br>5°03 45 E</div>
+      </div>
+    </div>
+    <div class="affiche-card">
+      <div class="affiche-inner">
+        <img src="Affiche 1-A3.jpg" alt="Tower" onerror="this.style.background='#7EA8C440'">
+        <div style="position:absolute;top:0;left:0;right:0;padding:20px;z-index:2;background:linear-gradient(to bottom,rgba(245,240,232,0.9),transparent);">
+        </div>
+      </div>
+      <div class="affiche-meta">
+        <div>
+          <div class="affiche-name blue">TOWER</div>
+          <div class="affiche-sub">Philippe le Bon · XVe siècle</div>
+        </div>
+        <div class="affiche-coords">47°19 19 N<br>5°02 29 E</div>
+      </div>
+    </div>
+    <div class="affiche-card">
+      <div class="affiche-inner">
+        <img src="Affiche 3-A3.jpg" alt="Store" onerror="this.style.background='#8B4A3A40'">
+        <div style="position:absolute;top:0;left:0;right:0;padding:20px;z-index:2;background:linear-gradient(to bottom,rgba(245,240,232,0.9),transparent);">
+        </div>
+      </div>
+      <div class="affiche-meta">
+        <div>
+          <div class="affiche-name brown">STORE</div>
+          <div class="affiche-sub">Maison fondée en 1796</div>
+        </div>
+        <div class="affiche-coords">47°32 23 N<br>5°04 15 E</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOCKUPS -->
+<section class="mockups reveal" id="mockups">
+  <div class="section-label">Mise en Situation</div>
+  <div class="section-title">Les Affiches en Action</div>
+  <p style="max-width:680px;font-size:1rem;line-height:1.7;color:var(--mid);margin-bottom:64px;">
+    Pour aller au-delà du simple rendu sur écran, nous avons projeté nos affiches dans deux contextes réels : une présentation côte-à-côte des trois posters, et une mise en scène urbaine sur un mur d'affichage extérieur. Ces mockups permettent d'évaluer l'impact visuel du système de couleurs et de la typographie dans un environnement concret, et de vérifier la cohérence de l'ensemble lorsque les trois formats sont vus ensemble.
+  </p>
+  <div class="mockups-grid">
+    <div class="mockup-card">
+      <div class="mockup-img-wrap">
+        <img src="Mockup_2.jpg" alt="Mockup trio affiches" onerror="this.onerror=null;this.src='';this.parentElement.style.background='var(--light-gray)'">
+      </div>
+      <div class="mockup-info">
+        <div class="mockup-tag">Mockup 01</div>
+        <h3>Affichage Urbain</h3>
+        <p>Les trois affiches présentées côte à côte révèlent la cohérence du système chromatique. Chaque couleur affirme son identité tout en s'inscrivant dans un tout harmonieux. Le format vertical accentue la verticalité des monuments photographiés.</p>
+      </div>
+    </div>
+    <div class="mockup-card">
+      <div class="mockup-img-wrap">
+        <img src="Mockup_1.jpg" alt="Mockup mur urbain" onerror="this.onerror=null;this.src='';this.parentElement.style.background='var(--dark)'">
+      </div>
+      <div class="mockup-info">
+        <div class="mockup-tag">Mockup 02</div>
+        <h3>Affichage Urbain</h3>
+        <p>Projetées sur un mur d'affichage extérieur, les affiches confirment leur lisibilité à grande échelle. La typographie massive reste parfaitement identifiable à distance, et le contraste entre la photo et la typographie colorée fonctionne dans tous les contextes lumineux.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RÉELS -->
+<section class="reels reveal" id="reels">
+  <div class="section-label">Réels Instagram</div>
+  <div class="section-title">Deux Formats Vidéo</div>
+  <div class="reels-grid">
+    <!-- Reel Dynamique -->
+    <div class="reel-card">
+      <a href="https://www.instagram.com/reel/DWL_osLDOhmzUhcjhzQ2Mh5N1Ut-Fq4YJNtVl40/?igsh=MWx5YWVtaXQxaW04OA==" target="_blank" class="reel-link-btn">
+  <span class="reel-link-btn-bar"></span>
+  <span class="reel-link-btn-text">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
+    Voir le réel dynamique
+  </span>
+  <span class="reel-link-btn-arrow">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+  </span>
+</a>
+      <div class="reel-info">
+        <h3>Réel Rapide &amp; Immersif</h3>
+        <p>Ce format répond à une réalité d'usage : sur Instagram, l'attention se gagne en quelques secondes. Nous avons donc conçu un réel à base de plans courts, nerveux, qui s'enchaînent sur les monuments et espaces urbains de Dijon. L'idée est de créer un effet de dynamisme visuel qui donne envie de découvrir la ville — comme une invitation à y aller. La musique rythmée et les cuts serrés renforcent cette énergie et ancrent le contenu dans les codes des réels les plus performants sur la plateforme.</p>
+        <div class="reel-tags">
+          <span class="reel-tag active">Plans courts</span>
+          <span class="reel-tag">Transitions</span>
+          <span class="reel-tag">Énergie</span>
+        </div>
+      </div>
+    </div>
+    <!-- Reel Lent -->
+    <div class="reel-card">
+      <a href="https://www.instagram.com/reel/DWL99WZDBvEMV2WaKFBbB-A39Y3bsrDZsIVLSk0/?igsh=MWdtZDluZHFybno5bQ==" target="_blank" class="reel-link-btn reel-link-btn--blue">
+  <span class="reel-link-btn-bar"></span>
+  <span class="reel-link-btn-text">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
+    Voir le réel Lent
+  </span>
+  <span class="reel-link-btn-arrow">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+  </span>
+</a>
+      <div class="reel-info">
+        <h3>Réel Lent &amp; Contemplatif</h3>
+        <p>À l'opposé du réel dynamique, ce format joue sur la durée et le silence. Les plans fixes s'attardent sur les détails que l'on ne voit pas d'habitude : la texture d'une façade en pierre, le reflet d'une fenêtre à meneaux, la lumière du matin sur les toits en tuiles vernissées. L'enjeu était de créer un espace de respiration dans le feed, un contenu que l'on regarde jusqu'au bout parce qu'il apaise. Ce réel s'adresse à ceux qui aiment Dijon autrement — pas pour ses attractions, mais pour son atmosphère.</p>
+        <div class="reel-tags">
+          <span class="reel-tag active">Plans fixes</span>
+          <span class="reel-tag">Contemplation</span>
+          <span class="reel-tag">Lumière naturelle</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCÈS -->
+<section class="acces reveal" id="acces">
+  <div class="section-label">Voir les Contenus</div>
+  <div class="section-title">Accès aux Contenus</div>
+  <p class="acces-sub">
+    Pour visualiser le rendu final tel qu'il apparaît sur Instagram, suivez le compte secondaire de Hevan qui regroupe tous nos contenus ainsi qu'un post bonus à découvrir.
+  </p>
+  <div class="acces-handle">@van_ouuu</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">DIJON <span>21</span></div>
+  <div class="footer-right">
+    Mini-Campagne Instagram<br>
+    Hevan &amp; Alicia · 2025<br>
+    Côte-d'Or, Bourgogne-Franche-Comté
+  </div>
+</footer>
+
+<script>
+  // Tab system
+  function showTab(index) {
+    document.querySelectorAll('.carousel-panel').forEach((p,i) => {
+      p.classList.toggle('active', i === index);
+    });
+    document.querySelectorAll('.tab-btn').forEach((b,i) => {
+      b.classList.toggle('active', i === index);
+    });
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
